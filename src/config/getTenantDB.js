@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 const connections = {} // cache de conexiones
 
+const buildTenantUri = (baseUri, dbName) => {
+  return baseUri.replace(/\/([^/?]+)(\?|$)/, `/${dbName}$2`)
+}
+
 export const getTenantDB = async empresaId => {
   const dbName = `empresa_${empresaId}`
 
@@ -9,8 +13,7 @@ export const getTenantDB = async empresaId => {
     return connections[dbName]
   }
 
-  const uri = process.env.MONGO_USERS_URI.replace(/\/([^/?]+)(\?|$)/, `/${dbName}$2`)
-
+  const uri = buildTenantUri(process.env.MONGO_USERS_URI, dbName)
   const conn = await mongoose.createConnection(uri)
 
   connections[dbName] = conn
