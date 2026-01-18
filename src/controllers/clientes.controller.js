@@ -51,7 +51,8 @@ export const getClienteById = async (req, res) => {
 
 export const createCliente = async (req, res) => {
   try {
-    const { empresaId } = req.user
+    const { empresaId, sucursalId } = req.user
+
     const { nombre, email, telefono } = req.body
 
     if (!nombre) {

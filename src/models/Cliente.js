@@ -6,11 +6,12 @@ const clienteSchema = new mongoose.Schema(
     telefono: String,
     email: String,
     activo: { type: Boolean, default: true },
+    empresaId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    sucursalId: { type: mongoose.Schema.Types.ObjectId, required: true },
   },
   { timestamps: true },
 )
 
 export const ClienteModel = conn => {
-  /* return conn.model('clientes', clienteSchema) */
   return conn.models.clientes || conn.model('clientes', clienteSchema)
 }

@@ -13,9 +13,9 @@ export const me = async (req, res) => {
 
   const token = generateToken({
     userId: user._id,
-    /* empresaId: user.empresaId,
+    empresaId: user.empresaId,
     sucursalId: user.sucursalId,
-    rol: user.rol, */
+    rol: user.rol,
   })
 
   res.cookie(process.env.COOKIE_NAME, token, {
@@ -45,9 +45,9 @@ export const login = async (req, res) => {
 
   const token = generateToken({
     userId: user._id,
-    /* empresaId: user.empresaId,
+    empresaId: user.empresaId,
     sucursalId: user.sucursalId,
-    rol: user.rol, */
+    rol: user.rol,
   })
 
   res.cookie(process.env.COOKIE_NAME, token, {
@@ -76,8 +76,7 @@ export const logout = (req, res) => {
 
 export const createUsuario = async (req, res) => {
   try {
-    const { empresaId } = req.user
-    const { sucursalId } = req.user
+    const { empresaId, sucursalId } = req.user
     const { email, password, rol, nombre, apellido } = req.body
 
     if (!email) {
