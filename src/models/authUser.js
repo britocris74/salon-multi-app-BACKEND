@@ -4,6 +4,7 @@ const AuthUserSchema = new mongoose.Schema(
   {
     email: { type: String, required: true, unique: true },
     nombre: { type: String, required: true, unique: true },
+    apellido: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
     empresaId: { type: mongoose.Schema.Types.ObjectId, required: true },
     sucursalId: { type: mongoose.Schema.Types.ObjectId, required: true },

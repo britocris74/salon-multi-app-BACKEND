@@ -24,7 +24,9 @@ export const me = async (req, res) => {
     sameSite: 'lax',
   })
 
-  res.status(200).json({ rol: user.rol, nombre: user.nombre, email: user.email })
+  res
+    .status(200)
+    .json({ rol: user.rol, nombre: user.nombre, email: user.email, apellido: user.apellido })
 }
 
 export const login = async (req, res) => {
@@ -54,7 +56,9 @@ export const login = async (req, res) => {
     sameSite: 'lax',
   })
 
-  res.status(200).json({ rol: user.rol, nombre: user.nombre, email: user.email })
+  res
+    .status(200)
+    .json({ rol: user.rol, nombre: user.nombre, email: user.email, apellido: user.apellido })
 }
 
 export const logout = (req, res) => {
@@ -74,10 +78,10 @@ export const createUsuario = async (req, res) => {
   try {
     const { empresaId } = req.user
     const { sucursalId } = req.user
-    const { usuario, password, rol } = req.body
+    const { email, password, rol, nombre, apellido } = req.body
 
-    if (!usuario) {
-      return res.status(400).json({ message: 'El usuario es obligatorio' })
+    if (!email) {
+      return res.status(400).json({ message: 'El email es obligatorio' })
     }
 
     if (!password) {
@@ -88,9 +92,10 @@ export const createUsuario = async (req, res) => {
       empresaId,
       sucursalId,
       email,
-      nombre,
       passwordHash: await bcrypt.hash(password, 10),
       rol,
+      nombre,
+      apellido,
       activo: true,
     })
 
