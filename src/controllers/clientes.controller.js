@@ -4,7 +4,7 @@ import { ClienteModel } from '../models/Cliente.js'
 export const getClientes = async (req, res) => {
   try {
     const { empresaId } = req.user
-    const { email } = req.query
+    const { email, telefono } = req.query
 
     const conn = await getTenantDB(empresaId)
     const Cliente = ClienteModel(conn)
@@ -12,6 +12,16 @@ export const getClientes = async (req, res) => {
     // 🔍 buscar por email
     if (email) {
       const cliente = await Cliente.findOne({ email })
+      if (!cliente) {
+        return res.status(404).json({ message: 'Cliente no encontrado' })
+      } else {
+        return res.json(cliente)
+      }
+    }
+
+    // 🔍 buscar por telefono
+    if (telefono) {
+      const cliente = await Cliente.findOne({ telefono })
       if (!cliente) {
         return res.status(404).json({ message: 'Cliente no encontrado' })
       } else {
@@ -53,7 +63,7 @@ export const createCliente = async (req, res) => {
   try {
     const { empresaId, sucursalId } = req.user
 
-    const { nombre, email, telefono } = req.body
+    const { nombre, apellido, email, telefono } = req.body
 
     if (!nombre) {
       return res.status(400).json({ message: 'El nombre es obligatorio' })
@@ -67,8 +77,8 @@ export const createCliente = async (req, res) => {
     const Cliente = ClienteModel(conn)
 
     // ❌ evitar duplicados por empresa
-    if (email) {
-      const existe = await Cliente.findOne({ email })
+    if (telefono) {
+      const existe = await Cliente.findOne({ telefono })
       if (existe) {
         return res.status(409).json({ message: 'El cliente ya existe' })
       }
@@ -76,13 +86,76 @@ export const createCliente = async (req, res) => {
 
     const nuevoCliente = await Cliente.create({
       nombre,
-      email,
+      apellido,
       telefono,
+      email,
+      empresaId,
+      sucursalId,
     })
 
     res.status(201).json(nuevoCliente)
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Error creando cliente' })
+  }
+}
+
+export const updateCliente = async (req, res) => {
+  try {
+    const { empresaId, sucursalId } = req.user
+    const { id } = req.params
+
+    const { nombre, apellido, email, telefono, activo } = req.body
+
+    const conn = await getTenantDB(empresaId)
+    const Cliente = ClienteModel(conn)
+
+    // 🔎 Buscar cliente por id + sucursal
+    const cliente = await Cliente.findOne({
+      _id: id,
+      sucursalId,
+    })
+
+    if (!cliente) {
+      return res.status(404).json({ message: 'Cliente no encontrado' })
+    }
+
+    // 🚫 Validar email duplicado (si cambia)
+    if (email && email !== cliente.email) {
+      const existeEmail = await Cliente.findOne({
+        email,
+        _id: { $ne: id },
+      })
+
+      if (existeEmail) {
+        return res.status(409).json({ message: 'El email ya está en uso' })
+      }
+    }
+
+    // 🚫 Validar teléfono duplicado (si cambia)
+    if (telefono && telefono !== cliente.telefono) {
+      const existeTelefono = await Cliente.findOne({
+        telefono,
+        _id: { $ne: id },
+      })
+
+      if (existeTelefono) {
+        return res.status(409).json({ message: 'El teléfono ya está en uso' })
+      }
+    }
+
+    // ✏️ Actualizar solo lo que venga
+    if (nombre !== undefined) cliente.nombre = nombre
+    if (apellido !== undefined) cliente.apellido = apellido
+    if (email !== undefined) cliente.email = email
+    if (telefono !== undefined) cliente.telefono = telefono
+    if (activo !== undefined) cliente.activo = activo
+
+    await cliente.save()
+
+    res.status(200).json(cliente)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Error actualizando cliente' })
   }
 }
