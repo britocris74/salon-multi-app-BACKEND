@@ -34,9 +34,29 @@ export const createTurno = async (req, res) => {
 export const getTurnos = async (req, res) => {
   try {
     const { empresaId } = req.user
+    const { date } = req.query
 
     const conn = await getTenantDB(empresaId)
     const Turnos = TurnoModel(conn)
+
+    // 🔍 buscar por date
+    if (date) {
+      const start = new Date(`${date}T00:00:00.000`)
+      const end = new Date(`${date}T23:59:59.999`)
+
+      const turnos = await Turnos.find({
+        fecha: {
+          $gte: start,
+          $lte: end,
+        },
+      }).sort({ fecha: 1 })
+
+      if (!turnos || turnos.length === 0) {
+        return res.status(404).json({ message: 'Turnos no encontrado' })
+      } else {
+        return res.json(turnos)
+      }
+    }
 
     // 📋 listar todos
     const turnos = await Turnos.find()
