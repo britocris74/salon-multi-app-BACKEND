@@ -9,6 +9,9 @@ import clientesRoutes from './routes/clientes.routes.js'
 import turnosRoutes from './routes/turnos.routes.js'
 import profesionalesRoutes from './routes/profesionales.routes.js'
 import serviciosRoutes from './routes/servicios.routes.js'
+import comandaRoutes from './routes/comanda.routes.js'
+import tiposPagoRoutes from './routes/tiposPago.routes.js'
+
 import { errorHandler } from './middlewares/error.middleware.js'
 
 dotenv.config()
@@ -36,6 +39,10 @@ app.use('/api/turnos', turnosRoutes)
 app.use('/api/profesionales', profesionalesRoutes)
 
 app.use('/api/servicios', serviciosRoutes)
+
+app.use('/api/comandas', comandaRoutes)
+
+app.use('/api/tipos-pago', tiposPagoRoutes)
 
 // Middleware de error global (debe ir al final)
 app.use(errorHandler)

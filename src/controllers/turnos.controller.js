@@ -5,7 +5,7 @@ export const createTurno = async (req, res) => {
   try {
     const { empresaId, sucursalId } = req.user
 
-    const { nombre, apellido, profesional, servicio, fecha } = req.body
+    const { nombre, apellido, telefono, profesional, servicio, fecha } = req.body
 
     if (!fecha) {
       return res.status(400).json({ message: 'La fecha es obligatoria' })
@@ -17,6 +17,7 @@ export const createTurno = async (req, res) => {
     const nuevoTurno = await Turno.create({
       nombre,
       apellido,
+      telefono,
       profesional,
       servicio,
       fecha,

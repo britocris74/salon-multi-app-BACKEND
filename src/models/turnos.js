@@ -4,6 +4,7 @@ const TurnoSchema = new mongoose.Schema(
   {
     nombre: { type: String },
     apellido: { type: String },
+    telefono: { type: String },
     profesional: { type: String },
     servicio: { type: String },
     fecha: { type: Date },
