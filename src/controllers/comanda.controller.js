@@ -11,7 +11,7 @@ export const getComandas = async (req, res) => {
 
     // 🔍 buscar por cliente
     if (clienteId) {
-      const comanda = await Comanda.findOne({ clienteId })
+      const comanda = await Comanda.find({ clienteId })
       if (!comanda) {
         return res.status(404).json({ message: 'Comanda no encontrada' })
       } else {
@@ -21,7 +21,7 @@ export const getComandas = async (req, res) => {
 
     // 🔍 buscar por profesional
     if (profesionalId) {
-      const comanda = await Comanda.findOne({ profesionalId })
+      const comanda = await Comanda.find({ profesionalId })
       if (!comanda) {
         return res.status(404).json({ message: 'Comanda no encontrada' })
       } else {
