@@ -11,6 +11,7 @@ import profesionalesRoutes from './routes/profesionales.routes.js'
 import serviciosRoutes from './routes/servicios.routes.js'
 import comandaRoutes from './routes/comanda.routes.js'
 import tiposPagoRoutes from './routes/tiposPago.routes.js'
+import valesRoutes from './routes/vales.routes.js'
 
 import { errorHandler } from './middlewares/error.middleware.js'
 
@@ -43,6 +44,8 @@ app.use('/api/servicios', serviciosRoutes)
 app.use('/api/comandas', comandaRoutes)
 
 app.use('/api/tipos-pago', tiposPagoRoutes)
+
+app.use('/api/vales', valesRoutes)
 
 // Middleware de error global (debe ir al final)
 app.use(errorHandler)
