@@ -2,8 +2,10 @@ import mongoose from 'mongoose'
 
 const ServicioSchema = new mongoose.Schema(
   {
-    nombre: { type: String, required: true },
-    precio: { type: String, required: true },
+    nro: { type: String, required: true },
+    servicio: { type: String, required: true },
+    precioLista: { type: Number, required: true },
+    precioEfectivo: { type: Number, required: true },
     empresaId: { type: mongoose.Schema.Types.ObjectId, required: true },
     sucursalId: { type: mongoose.Schema.Types.ObjectId, required: true },
   },

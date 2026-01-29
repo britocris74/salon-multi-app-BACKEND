@@ -6,7 +6,12 @@ const servicioSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    precio: {
+    precioLista: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    precioEfectivo: {
       type: Number,
       required: true,
       min: 0,
