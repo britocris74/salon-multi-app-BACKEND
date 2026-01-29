@@ -9,6 +9,7 @@ const clienteSchema = new mongoose.Schema(
     activo: { type: Boolean, default: true },
     empresaId: { type: mongoose.Schema.Types.ObjectId, required: true },
     sucursalId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
   },
   { timestamps: true },
 )

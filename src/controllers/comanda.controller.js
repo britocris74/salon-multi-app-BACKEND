@@ -41,7 +41,7 @@ export const getComandas = async (req, res) => {
 
 export const createComanda = async (req, res) => {
   try {
-    const { empresaId, sucursalId } = req.user
+    const { empresaId, sucursalId, userId } = req.user
 
     const { profesionalId, clienteId, servicios, tipoPagoId, montoTotal } = req.body
 
@@ -56,6 +56,7 @@ export const createComanda = async (req, res) => {
       montoTotal,
       empresaId,
       sucursalId,
+      createdBy: userId,
     })
 
     res.status(201).json(nuevaComanda)

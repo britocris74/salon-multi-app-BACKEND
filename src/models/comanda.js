@@ -42,6 +42,9 @@ const comandaSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, required: true },
+    empresaId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    sucursalId: { type: mongoose.Schema.Types.ObjectId, required: true },
   },
   {
     timestamps: true,

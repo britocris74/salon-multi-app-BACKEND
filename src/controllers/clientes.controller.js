@@ -61,7 +61,7 @@ export const getClienteById = async (req, res) => {
 
 export const createCliente = async (req, res) => {
   try {
-    const { empresaId, sucursalId } = req.user
+    const { empresaId, sucursalId, userId } = req.user
 
     const { nombre, apellido, email, telefono } = req.body
 
@@ -91,6 +91,7 @@ export const createCliente = async (req, res) => {
       email,
       empresaId,
       sucursalId,
+      createdBy: userId,
     })
 
     res.status(201).json(nuevoCliente)
